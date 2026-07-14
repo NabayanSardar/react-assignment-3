@@ -17,14 +17,14 @@ const Stopwatch = () => {
 
   const toggleStartPause = () => {
     if (isRunning) {
-      // Pause
+
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
       setIsRunning(false);
     } else {
-      // Start
+
       intervalRef.current = window.setInterval(() => {
         setTime((prev) => {
           let { hours, minutes, seconds } = prev;

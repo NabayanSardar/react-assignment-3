@@ -8,6 +8,7 @@ import {
 } from "../../services/appwrite";
 import type { Student } from "../../types/interface/student.interface";
 import toast from "react-hot-toast";
+import { studentSchema } from "../../services/valition/student.validation";
 
 const EditStudent = () => {
   const { id } = useParams();
@@ -33,20 +34,29 @@ const EditStudent = () => {
   }, [id]);
 
   const updateStudent = async (data: Student) => {
-    try {
-      await tablesDB.updateRow(
-        DATABASE_ID,
-        TABLE_ID,
-        id!,
-        data
-      );
+  try {
+    await studentSchema.validate(data, { abortEarly: false });
 
-      toast.success("Student Updated Successfully");
-      navigate("/students");
-    } catch (error) {
-      toast.error("Update Failed");
+    await tablesDB.updateRow(
+      DATABASE_ID,
+      TABLE_ID,
+      id!,
+      data
+    );
+
+    toast.success("Student Updated Successfully");
+    navigate("/students");
+
+  } catch (error: any) {
+    if (error.inner) {
+      error.inner.forEach((err: any) => {
+        toast.error(err.message);
+      });
+    } else {
+      toast.error(error.message);
     }
-  };
+  }
+};
 
   if (!student) return <h1 className="p-6">Loading...</h1>;
 

@@ -27,7 +27,6 @@ const LargeFormOptimizer = () => {
   const [errors, setErrors] = useState<Errors>({});
   const [saved, setSaved] = useState(false);
 
-  // handle change
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const target = e.target as HTMLInputElement;
@@ -55,7 +54,6 @@ const LargeFormOptimizer = () => {
     []
   );
 
-  // validation function
   const validate = () => {
     const newErrors: Errors = {};
 
@@ -71,7 +69,6 @@ const LargeFormOptimizer = () => {
     return newErrors;
   };
 
-  // useMemo
   const summaryText = useMemo(() => {
     return `
 Name: ${form.name}
@@ -84,7 +81,6 @@ Accepted Terms: ${form.terms ? "Yes" : "No"}
     `;
   }, [form]);
 
-  // submit
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
@@ -111,19 +107,15 @@ Accepted Terms: ${form.terms ? "Yes" : "No"}
       >
         <h1 className="text-2xl font-bold text-center">Form Fillup</h1>
 
-        {/* Name */}
         <InputField name="name" label="Name" value={form.name} onChange={handleChange} />
         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
 
-        {/* Email */}
         <InputField name="email" label="Email" value={form.email} onChange={handleChange} />
         {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-        {/* Phone */}
         <InputField name="phone" label="Phone" value={form.phone} onChange={handleChange} />
         {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
 
-        {/* Gender */}
         <div>
           <p className="font-medium">Gender</p>
           <div className="flex gap-4">
